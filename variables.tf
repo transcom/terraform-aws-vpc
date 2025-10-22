@@ -414,6 +414,12 @@ variable "private_route_table_tags" {
   default     = {}
 }
 
+variable "environment" {
+  description = "The environment to deploy to (e.g., dev, prod, stage, logs)"
+  type        = string
+  default     = "logs" # You can set a default value if needed
+}
+
 ################################################################################
 # Private Network ACLs
 ################################################################################
