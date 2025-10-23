@@ -288,6 +288,7 @@ resource "aws_network_acl_rule" "public_outbound" {
 
 locals {
   create_private_subnets = local.create_vpc && local.len_private_subnets > 0
+  environment            = var.environment
 }
 
 resource "aws_subnet" "private" {
@@ -317,12 +318,12 @@ resource "aws_subnet" "private" {
     var.tags,
     var.private_subnet_tags,
     lookup(var.private_subnet_tags_per_az, element(var.azs, count.index), {}),
-    var.environment == "logs" ? {
+    local.environment == "logs" ? {
       "karpenter.sh/discovery" = "milmove-gitlab-runner"
     } : {}
   )
   tags_all = merge(
-    var.environment == "logs" ? {
+    local.environment == "logs" ? {
       "karpenter.sh/discovery" = "milmove-gitlab-runner"
     } : {}
   )
